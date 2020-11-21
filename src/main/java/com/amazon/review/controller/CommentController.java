@@ -1,7 +1,6 @@
 package com.amazon.review.controller;
 
 import com.amazon.review.model.FileItem;
-import com.amazon.review.service.CsvFileService;
 import com.amazon.review.service.CsvFileServiceImpl;
 import java.util.List;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -16,7 +15,7 @@ public class CommentController {
     @GetMapping("/test")
     public String test() {
         service.loadFile();
-        List<FileItem> fileItems = service.readTransactions();
+        List<FileItem> fileItems = service.getFileItems();
         return "test";
     }
 }

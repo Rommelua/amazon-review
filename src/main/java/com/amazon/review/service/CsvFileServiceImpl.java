@@ -13,6 +13,7 @@ import java.nio.channels.ReadableByteChannel;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
+import javax.annotation.PostConstruct;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
@@ -30,8 +31,7 @@ public class CsvFileServiceImpl implements CsvFileService {
     private String filePath;
 
     @Override
-//    @PostConstruct
-    public List<FileItem> readTransactions() {
+    public List<FileItem> getFileItems() {
         try (BufferedReader reader
                      = new BufferedReader(new InputStreamReader(new FileInputStream(filePath)))) {
             return reader.lines()
@@ -43,6 +43,7 @@ public class CsvFileServiceImpl implements CsvFileService {
         }
     }
 
+    @Override
     public void loadFile() {
         try (ReadableByteChannel readableByteChannel
                      = Channels.newChannel(new URL(fileUrl).openStream());
@@ -50,7 +51,7 @@ public class CsvFileServiceImpl implements CsvFileService {
             fileOutputStream.getChannel()
                     .transferFrom(readableByteChannel, 0, Long.MAX_VALUE);
         } catch (IOException e) {
-            e.printStackTrace();
+            throw new CsvFileException("Can't read file from url " + fileUrl, e);
         }
     }
 
