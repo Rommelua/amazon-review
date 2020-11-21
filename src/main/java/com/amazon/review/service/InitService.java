@@ -41,7 +41,7 @@ public class InitService {
     @PostConstruct
     public void init() {
         initRoles();
-        csvFileService.loadFile();
+        //csvFileService.loadFile();
         List<FileItem> fileItems = csvFileService.getFileItems();
         storeDataToDB(fileItems);
     }

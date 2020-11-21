@@ -1,6 +1,5 @@
 package com.amazon.review.model;
 
-
 public class FileItem {
     private long id;
     private String productId;
